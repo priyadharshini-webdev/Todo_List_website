@@ -1,0 +1,290 @@
+/* ==================================================
+   TICKIT - app pages (home, pending, completed, profile)
+   ================================================== */
+
+
+/* ---------- 1. COLORS ---------- */
+
+:root {
+  --olive: #4f6234;        /* dark green, for text */
+  --sage: #7f9660;         /* medium green */
+  --sage-light: #93a874;   /* light green */
+  --cream: #f4f2e3;        /* background cream */
+  --ivory: #fffdf0;        /* very light, for text on buttons */
+}
+
+
+/* ---------- 2. PAGE ---------- */
+
+body {
+  min-height: 100vh;       /* page is at least screen height */
+  color: var(--olive);     /* default text color */
+
+  /* soft cream-green background */
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255, 253, 240, 0.9), transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(200, 214, 170, 0.7), transparent 55%),
+    linear-gradient(180deg, var(--cream), #e6ead2);
+  background-attachment: fixed;   /* background stays when scrolling */
+}
+
+.container {
+  max-width: 1200px;       /* content never gets wider than this */
+}
+
+.text-secondary {
+  color: #7a8566 !important;   /* light green-grey text */
+}
+
+
+/* ---------- 3. HEADINGS AND NUMBERS ---------- */
+
+.brand,
+.page-title,
+.big-number {
+  font-family: "DM Serif Display", serif;   /* heading font */
+  color: var(--olive);
+}
+
+.page-title {
+  font-size: clamp(2rem, 5vw, 3rem);   /* size changes with screen width */
+}
+
+.big-number {
+  font-size: 3rem;         /* large numbers (percent, streak) */
+  line-height: 1;
+}
+
+
+/* ---------- 4. CARD ---------- */
+
+.soft-card {
+  background: rgba(255, 253, 240, 0.7);   /* light see-through cream */
+  border-radius: 1.25rem;                 /* round corners */
+
+  /* dark shadow bottom-right, white shadow top-left */
+  box-shadow:
+    6px 6px 16px rgba(95, 115, 65, 0.15),
+    -4px -4px 12px rgba(255, 255, 255, 0.8);
+}
+
+
+/* ---------- 5. NAVBAR ---------- */
+
+.navbar {
+  background: rgba(244, 242, 227, 0.8);   /* see-through cream */
+  backdrop-filter: blur(10px);            /* blur what is behind */
+}
+
+.navbar-brand {
+  font-size: 1.8rem;
+  color: var(--olive);
+}
+
+.nav-link {
+  color: var(--olive) !important;
+  border-radius: 999px;                   /* pill shape */
+  padding: 0.4rem 1.1rem !important;
+}
+
+.nav-link:hover {
+  background: rgba(127, 150, 96, 0.15);   /* light green on hover */
+}
+
+.nav-link.active {
+  background: linear-gradient(145deg, var(--sage-light), #6f8651);   /* current page */
+  color: var(--ivory) !important;
+}
+
+
+/* ---------- 6. BUTTONS ---------- */
+
+/* filled green button (Add) */
+.btn-sage {
+  background: linear-gradient(145deg, var(--sage-light), #6f8651);
+  color: var(--ivory);
+  border: 0;
+  border-radius: 999px;
+  padding: 0.6rem 1.8rem;
+}
+
+.btn-sage:hover {
+  color: var(--ivory);
+  filter: brightness(1.06);               /* slightly brighter on hover */
+}
+
+/* outline button (Delete, View profile, Clear all) */
+.btn-outline-sage {
+  color: var(--olive);
+  border: 1px solid var(--sage);
+  border-radius: 999px;
+}
+
+.btn-outline-sage:hover {
+  background: var(--sage);                /* fills green on hover */
+  color: var(--ivory);
+}
+
+
+/* ---------- 7. INPUT ---------- */
+
+.form-control,
+.form-control:focus {
+  background: transparent;                /* no box, card shows behind */
+  border: 0;
+  box-shadow: none;
+  color: var(--olive);
+}
+
+.form-control.is-invalid {
+  background-image: none;                 /* hide bootstrap's red icon */
+}
+
+/* red outline around the form when the input is empty */
+#add-form:has(.is-invalid) {
+  outline: 2px solid #c0634f;
+}
+
+
+/* ---------- 8. TASK LIST ---------- */
+
+/* many columns (pending, completed) */
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+/* one column only (home) */
+.task-grid.one {
+  grid-template-columns: 1fr;
+}
+
+/* one task row */
+.task {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.4rem;
+}
+
+.task-text {
+  flex: 1;                                /* text takes the free space */
+  word-break: break-word;                 /* long words go to next line */
+}
+
+/* finished task */
+.task.done .task-text {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* checkbox */
+.form-check-input {
+  width: 1.4rem;
+  height: 1.4rem;
+  margin: 0;
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: var(--sage);
+  border-color: var(--sage);
+}
+
+/* "no tasks" message */
+.empty {
+  grid-column: 1 / -1;                    /* across all columns */
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+
+/* ---------- 9. PROGRESS BAR ---------- */
+
+.progress {
+  height: 10px;
+  background: rgba(127, 150, 96, 0.2);    /* empty part */
+}
+
+.progress-bar {
+  background: var(--sage);                /* filled part */
+  transition: width 0.4s ease;            /* smooth growing */
+}
+
+
+/* ---------- 10. PROFILE PAGE ---------- */
+
+/* label on the left, number on the right */
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* round avatar */
+.avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;                     /* makes it a circle */
+  display: grid;
+  place-items: center;                    /* letter in the middle */
+  font: 2.8rem "DM Serif Display", serif;
+  color: var(--ivory);
+  background: linear-gradient(145deg, var(--sage-light), #6f8651);
+}
+
+/* 7 boxes in each row */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+/* one day box */
+.cell {
+  aspect-ratio: 1;                        /* square */
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: #7a8566;
+  background: rgba(127, 150, 96, 0.12);
+}
+
+/* day with a finished task */
+.cell.on {
+  background: var(--sage);
+  color: var(--ivory);
+  font-weight: 600;
+}
+
+/* today */
+.cell.today {
+  outline: 2px solid var(--olive);
+  outline-offset: 2px;
+}
+
+/* 8. SPARKLES  */
+.sparkles {
+  position: fixed;             /* stays on screen */
+  inset: 0;                    /* covers the whole page */
+  pointer-events: none;        /* never blocks clicks (button still works) */
+  z-index: 0;                  /* behind mascot and text */
+}
+
+.sparkle {
+  position: absolute;          /* top / left / right come from index.html */
+  width: var(--size);          /* size comes from index.html */
+  aspect-ratio: 1;             /* square */
+  background: var(--sage-light);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); /* 4-point star */
+  opacity: 0;                  /* hidden until the animation starts */
+  animation: twinkle var(--time) ease-in-out var(--delay) infinite;
+}
+
+.sparkle.gold { background: #d9c77a; }   /* soft gold variant */
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0;  transform: scale(0.3) rotate(0deg); }    /* invisible, small */
+  50%      { opacity: 0.9; transform: scale(1) rotate(45deg); }    /* visible, full size */
+}

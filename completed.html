@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tickit – Completed</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="app.css" rel="stylesheet">
+</head>
+<body data-page="completed">
+
+  <!-- decorative sparkles -->
+  <div class="sparkles" aria-hidden="true">
+    <span class="sparkle" style="--size: 22px; top: 15%; left: 39%; --delay: 0s;   --time: 3.2s;"></span> //fix
+    <span class="sparkle gold" style="--size: 16px; top: 20%; right: 10%; --delay: 1s;   --time: 2.8s;"></span> //fix
+    <span class="sparkle gold" style="--size: 14px; top: 70%; left: 16%; --delay: 1.8s; --time: 3.6s;"></span> //fix
+    <span class="sparkle" style="--size: 20px; top: 26%; right: 98%; --delay: 0.6s; --time: 3s;"></span> //fix
+    <span class="sparkle gold" style="--size: 20px; top: 87%; right: 24%; --delay: 0.6s; --time: 3s;"></span>
+
+  </div>
+   
+  <div id="nav"></div>
+
+  <main class="container py-5">
+    <div class="d-flex justify-content-between align-items-start mb-4">
+      <div>
+        <h2 class="page-title">Completed Tasks</h2>
+        <p class="text-secondary mb-0">Everything you've finished.</p>
+      </div>
+      <button id="clear-btn" class="btn btn-outline-sage">Clear all</button>
+    </div>
+    <div id="task-list" class="task-grid"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

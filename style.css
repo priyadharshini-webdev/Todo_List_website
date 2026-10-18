@@ -1,0 +1,173 @@
+/*  1. COLOR VARIABLES */
+:root {                        /* :root = whole page, variables available everywhere */
+  --olive: #4f6234;            /* deep olive green: used for the Tickit wordmark */
+  --sage: #7f9660;             /* muted sage: used for the tagline and the leaf */
+  --sage-light: #93a874;       /* lighter sage: top of the button gradient */
+  --cream: #f4f2e3;            /* cream: base of the background */
+  --ivory: #fffdf0;            /* pale ivory: shimmer highlight and button text */
+}
+
+/* 2. PAGE + BACKGROUND  */
+html, body {
+  min-height: 100%;            /* page is at least as tall as the screen */
+  overflow-x: hidden;          /* no sideways scrollbar */
+}
+
+body {
+  background:
+    linear-gradient(115deg, transparent 20%, rgba(255,255,255,.55) 28%, transparent 36%),  /* layer 1: light ray 1 */
+    linear-gradient(115deg, transparent 55%, rgba(255,255,255,.4) 62%, transparent 70%),   /* layer 2: light ray 2 */
+    radial-gradient(ellipse at 20% 15%, rgba(255,253,240,.9), transparent 55%),            /* layer 3: ivory glow, top left */
+    radial-gradient(ellipse at 85% 90%, rgba(200,214,170,.7), transparent 55%),            /* layer 4: sage glow, bottom right */
+    linear-gradient(180deg, var(--cream), #e6ead2);                                        /* layer 5: base cream to sage */
+  background-attachment: fixed; /* background stays still while scrolling */
+  font-family: "DM Serif Display", serif;  /* default font (serif is the backup) */
+}
+
+.hero {
+  min-height: 100vh;           /* full screen height (older browsers use this) */
+  min-height: 100dvh;          /* full height on mobile, even with the address bar */
+  padding-block: 2rem;         /* space at top and bottom */
+}
+
+/*  3. MASCOT BOX  */
+.mascot {
+  position: relative;          /* the canvas is placed inside this box */
+  width: clamp(240px, 36vw, 400px);  /* min 240px, 36% of screen, max 400px */
+  aspect-ratio: 1 / 1;         /* always a square */
+  z-index: 1;                  /* sits behind the wordmark (which has 2) */
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent); /* Safari: fade the bottom 20% */
+          mask-image: linear-gradient(to bottom, #000 80%, transparent); /* other browsers: same fade */
+}
+
+.mascot canvas {
+  position: absolute;          /* placed relative to the .mascot box */
+  inset: 0;                    /* top, right, bottom, left = 0 */
+  width: 100%;                 /* fill the whole box */
+  height: 100%;
+}
+
+.mascot.is-fallback {
+  display: none;               /* if WebGL fails, hide the box */
+}
+
+.mascot.is-fallback + .wordmark {
+  margin-top: 0;               /* if the box is hidden, remove the overlap */
+}
+
+/*  4. WORDMARK */
+.wordmark {
+  position: relative;          /* so the leaf can be positioned inside it */
+  margin: clamp(-3.5rem, -7vw, -1.5rem) 0 0;  /* negative top margin = overlaps the mascot */
+  font-size: clamp(4rem, 15vw, 9rem);         /* responsive size */
+  line-height: 1;              /* no extra line spacing */
+  color: var(--olive);         /* deep olive green */
+  text-shadow:
+    0 2px 0 rgba(255,255,255,.6),             /* white highlight on the edge */
+    0 8px 18px rgba(79,98,52,.25);            /* soft green shadow below */
+  z-index: 2;                  /* in front of the mascot */
+}
+
+.leaf {
+  position: absolute;          /* free position inside .wordmark */
+  top: -0.15em;                /* slightly above the text */
+  right: -0.35em;              /* just outside the right side */
+  width: 0.3em;                /* size relative to the font size */
+  color: var(--sage);          /* the SVG's currentColor uses this */
+}
+
+/*  5. TAGLINE + SHIMMER */
+.tagline {
+  margin: 0.5rem 0 2rem;       /* small gap above, bigger gap below */
+  font-family: "Allura", cursive;   /* elegant script font */
+  font-size: clamp(1.8rem, 5.5vw, 3rem);   /* responsive size */
+  background: linear-gradient(100deg, var(--sage) 40%, var(--ivory) 50%, var(--sage) 60%)
+              200% 0 / 250% 100%;  /* sage with an ivory stripe: starts at 200%, size 250% wide */
+  -webkit-background-clip: text; /* Safari: show background only inside letters */
+          background-clip: text; /* other browsers: same */
+  color: transparent;          /* so the background shows through the letters */
+  animation: shimmer 5s ease-in-out infinite;  /* 5 second loop, forever */
+}
+
+@keyframes shimmer {
+  to { background-position: -50% 0; }  /* slides the ivory stripe across the text */
+}
+
+/* 6. NEUMORPHIC BUTTON */
+.btn-neu {
+  padding: 0.9rem clamp(2.2rem, 6vw, 3.2rem);  /* top/bottom, then left/right (responsive) */
+  border-radius: 999px;        /* full pill shape */
+  background: linear-gradient(145deg, var(--sage-light), #6f8651);  /* light to dark sage */
+  color: var(--ivory);         /* text color */
+  font-family: system-ui, sans-serif;  /* clean UI font */
+  font-weight: 500;            /* medium weight */
+  font-size: clamp(1rem, 2.4vw, 1.15rem);  /* responsive text size */
+  text-decoration: none;       /* remove link underline */
+  box-shadow:
+    8px 8px 18px rgba(95,115,65,.35),      /* dark shadow, bottom right */
+    -6px -6px 14px rgba(255,255,255,.85),  /* white light, top left (gives the raised look) */
+    inset 1px 1px 2px rgba(255,255,255,.35); /* thin inner shine */
+  transition: transform .2s ease, box-shadow .2s ease;  /* smooth hover/press */
+}
+
+.btn-neu:hover {
+  transform: translateY(-2px); /* lifts up slightly */
+  color: var(--ivory);         /* stops Bootstrap changing the link color */
+  box-shadow:
+    10px 12px 22px rgba(95,115,65,.4),     /* bigger shadow = higher */
+    -6px -6px 14px rgba(255,255,255,.9),
+    inset 1px 1px 2px rgba(255,255,255,.4);
+}
+
+.btn-neu:active {
+  transform: translateY(1px);  /* pushes down on click */
+  color: var(--ivory);
+  box-shadow:
+    inset 4px 4px 10px rgba(60,80,40,.35),   /* inner shadows = pressed in */
+    inset -3px -3px 8px rgba(255,255,255,.25);
+}
+
+.btn-neu:focus-visible {
+  outline: 3px solid var(--olive);  /* visible ring for keyboard users */
+  outline-offset: 4px;              /* gap between button and ring */
+}
+
+/* 7. REDUCED MOTION  */
+@media (prefers-reduced-motion: reduce) {   /* user turned off animations in their system */
+  .tagline {
+    animation: none;           /* stop the shimmer */
+    color: var(--sage);        /* show a plain readable color */
+    background: none;          /* remove the gradient */
+  }
+  .btn-neu {
+    transition: none;          /* no hover animation */
+  }
+
+  .sparkle { animation: none; opacity: 0.5; }   /* static, no blinking */
+
+}
+
+/* 8. SPARKLES  */
+.sparkles {
+  position: fixed;             /* stays on screen */
+  inset: 0;                    /* covers the whole page */
+  pointer-events: none;        /* never blocks clicks (button still works) */
+  z-index: 0;                  /* behind mascot and text */
+}
+
+.sparkle {
+  position: absolute;          /* top / left / right come from index.html */
+  width: var(--size);          /* size comes from index.html */
+  aspect-ratio: 1;             /* square */
+  background: var(--sage-light);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); /* 4-point star */
+  opacity: 0;                  /* hidden until the animation starts */
+  animation: twinkle var(--time) ease-in-out var(--delay) infinite;
+}
+
+.sparkle.gold { background: #d9c77a; }   /* soft gold variant */
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0;  transform: scale(0.3) rotate(0deg); }    /* invisible, small */
+  50%      { opacity: 0.9; transform: scale(1) rotate(45deg); }    /* visible, full size */
+}
